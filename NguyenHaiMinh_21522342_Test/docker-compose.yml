@@ -1,0 +1,27 @@
+services:
+  backend:
+    build:
+      context: .  # Root context; paths in Dockerfile are absolute from this level
+      dockerfile: backend/NguyenHaiMinh_21522342_Test/Dockerfile
+    ports:
+      - "5235:5235"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    environment:
+      - REACT_APP_API_URL=http://backend:5235
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+networks:
+  app-network:
